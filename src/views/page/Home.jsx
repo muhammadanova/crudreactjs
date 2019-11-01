@@ -7,10 +7,10 @@ class Home extends React.Component {
     persons: [],
     ModalAddPerson: false,
     form: {
-      name: ''
-      // email: '',
-      // phone: '',
-      // city: ''
+      name: '',
+      email: '',
+      phone: '',
+      city: ''
     }
   }
 
@@ -18,11 +18,36 @@ class Home extends React.Component {
     this.getAllUsers()
   }
 
-  handleChange = event => {
+  getName = event => {
     this.setState({ 
       form: {
-        name: event.target.value }
-      });
+        name: event.target.value
+      }
+    });
+  }
+
+  getEmail = event => {
+    this.setState({ 
+      form: {
+        email: event.target.value
+      }
+    });
+  }
+
+  getPhone = event => {
+    this.setState({
+      form: {
+        phone: event.target.value
+      }
+    })
+  }
+
+  getCity = event => {
+    this.setState({
+      form: {
+        city: event.target.value
+      }
+    })
   }
 
   handleSubmit = event => {
@@ -30,9 +55,9 @@ class Home extends React.Component {
 
     const user = {
       name: this.state.form.name,
-      // email: this.state.form.email,
-      // phone: this.state.form.phone,
-      // city: this.state.form.city,
+      email: this.state.form.email,
+      phone: this.state.form.phone,
+      city: this.state.form.city,
     };
 
     axios.post(`https://jsonplaceholder.typicode.com/users`, { user })
@@ -86,43 +111,36 @@ class Home extends React.Component {
               <span aria-hidden={true}>×</span>
             </button>
           </div>
-          <div className="modal-body">
-            <form onSubmit={this.handleSubmit}>
-              <label>
-                Person Name:
-                <input type="text" name="name" onChange={this.handleChange} />
-              </label>
-              <button type="submit">Add</button>
-            </form>
-            {/* <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={this.handleSubmit}>
+            <div className="modal-body">
               <Row>
-                  <Col md={6}>
-                    <Form.Group>
-                      <Form.Label>Name</Form.Label>
-                      <Form.Control type="text" name="name" placeholder="Your Name" onChange={this.handleChange} />
-                    </Form.Group>
-                    <Form.Group>
-                      <Form.Label>Email</Form.Label>
-                      <Form.Control type="email" placeholder="Your Email"/>
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group>
-                      <Form.Label>Phone</Form.Label>
-                      <Form.Control type="text" placeholder="Your Phone"/>
-                    </Form.Group>
-                    <Form.Group>
-                      <Form.Label>City</Form.Label>
-                      <Form.Control type="" placeholder="Your City"/>
-                    </Form.Group>
-                  </Col>
+                <Col md={6}>
+                  <Form.Group>
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control type="text" name="name" value={this.state.form.name} placeholder="Your Name" onChange={this.getName} />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control type="email" name="email" value={this.state.form.email} placeholder="Your Email" onChange={this.getEmail}/>
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group>
+                    <Form.Label>Phone</Form.Label>
+                    <Form.Control type="text" name="phone" value={this.state.form.phone} placeholder="Your Phone" onChange={this.getPhone}/>
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>City</Form.Label>
+                    <Form.Control type="text" name="city" value={this.state.form.city} placeholder="Your City" onChange={this.getCity}/>
+                  </Form.Group>
+                </Col>
               </Row>
-            </Form> */}
-          </div>
-          <div className="modal-footer">
-            <Button variant="primary" type="submit" size="sm">Submit</Button>
-            <Button variant="secondary" type="button" size="sm">Cancel</Button>
-          </div>
+            </div>
+            <div className="modal-footer">
+              <Button variant="primary" type="submit" size="sm">Submit</Button>
+              <Button variant="secondary" type="button" size="sm">Cancel</Button>
+            </div>
+          </Form>
         </Modal>
         <Button
           size="sm"
