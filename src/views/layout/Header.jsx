@@ -10,19 +10,17 @@ class Header extends React.Component {
       <Navbar bg="light" expand="lg">
         <div className="container">
           <Navbar.Brand href="#home" className="mr-lg-5">
-            <img src="/img/Logo_Visualstation.png" className="logo-headers" />
+            <img src="/img/react.png" className="logo-headers" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link href="/" tag={Link} className="mr-4">Home</Nav.Link>
-              <Nav.Link href="/profile" tag={Link}  className="mr-4">Profile</Nav.Link>
-              <NavDropdown title="Products" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+              <Nav.Link href="/" tag={Link} className="mr-4">Persons</Nav.Link>
+              <Nav.Link href="/Employees" tag={Link}  className="mr-4">Employees</Nav.Link>
+              <NavDropdown title="Users" id="basic-nav-dropdown">
+                <NavDropdown.Item href="#action/3.1">Login</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.4">Register</NavDropdown.Item>
               </NavDropdown>
             </Nav>
             <Form inline>

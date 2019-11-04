@@ -1,90 +1,48 @@
-import React from 'react';
-import axios from 'axios';
+import React from 'react'
+import axios from 'axios'
 import { Table, Button, Modal, Row, Col, Form } from 'react-bootstrap';
 
-class Home extends React.Component {
+class Employees extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      persons: [],
-      ModalAddPerson: false,
-      name: '',
-      email: '',
-      phone: '',
-      city: ''
+      employees: [],
+      ModalAddEmployees: false
     }
   }
 
   componentDidMount(){
-    this.getAllUsers()
+    this.getEmployees()
   }
 
-  getName = event => {
-    this.setState({ name: event.target.value });
-  }
-
-  getEmail = event => {
-    this.setState({ email: event.target.value });
-  }
-
-  getPhone = event => {
-    this.setState({ phone: event.target.value });
-  }
-
-  getCity = event => {
-    this.setState({ city: event.target.value });
-  }
-
-  handleSubmit = event => {
-    event.preventDefault();
-
-    let formData = {
-      name: this.state.name,
-      email: this.state.email,
-      phone: this.state.phone,
-      city: this.state.city,
-    };
-
-    axios.post(`https://jsonplaceholder.typicode.com/users`, formData)
-      .then(res => {
-        this.state.persons.concat(res.data)
-        console.log(res.data)
-        this.getAllUsers()
-        this.hideModal()
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  }
-
-  getAllUsers = () => {
-    axios.get(`https://jsonplaceholder.typicode.com/users`)
+  getEmployees = () => {
+    axios.get(`http://dummy.restapiexample.com/api/v1/employees`)
     .then(res => {
-      const persons = res.data
+      const employees = res.data
       console.log(res.data)
-      this.setState({ persons })
+      this.setState({ employees })
     })
   }
 
   showModal = () => {
-    this.setState({ ModalAddPerson: true });
-  };
+    this.setState({ ModalAddEmployees : true })
+  }
 
   hideModal = () => {
-    this.setState({ ModalAddPerson: false });
-  };
+    this.setState({ ModalAddEmployees : false })
+  }
 
-  render() {
-    return (
+  render(){
+    return(
       <section className="mt-5 mb-5">
         <Modal
           size="lg"
           centered
-          show={this.state.ModalAddPerson}
+          show={this.state.ModalAddEmployees}
         >
           <div className="modal-header">
             <h6 className="modal-title" id="modal-title-default">
-              Add Person
+              Add Employees
             </h6>
             <button
               aria-label="Close"
@@ -123,7 +81,7 @@ class Home extends React.Component {
             </div>
             <div className="modal-footer">
               <Button variant="primary" type="submit" size="sm">Submit</Button>
-              <Button variant="secondary" type="button" size="sm">Cancel</Button>
+              <Button variant="secondary" type="button" size="sm" onClick={this.hideModal}>Cancel</Button>
             </div>
           </Form>
         </Modal>
@@ -134,29 +92,27 @@ class Home extends React.Component {
           type="button"
           onClick={this.showModal}
         >
-          <i className="fa fa-plus"></i>&nbsp;Add Person
+          <i className="fa fa-plus"></i>&nbsp;Add Employees
         </Button>
         <Table striped bordered hover>
           <thead>
             <tr>
               <th>No</th>
+              <th>Age</th>
               <th>Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>City</th>
+              <th>Salary</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {
-              this.state.persons.map((person) => {
+              this.state.employees.map((employee, index) => {
                 return (
-                  <tr key={person.id}>
-                    <td>{person.id}</td>
-                    <td>{person.name}</td>
-                    <td>{person.email}</td>
-                    <td>{person.phone}</td>
-                    <td>{person.address.city}</td>
+                  <tr key={employee.id}>
+                    <td>{index + 1}</td>
+                    <td>{employee.employee_age}</td>
+                    <td>{employee.employee_name}</td>
+                    <td>{employee.employee_salary}</td>
                     <td>
                       <Button variant="info" size="sm" className="mr-2">
                         <i className="fa fa-pencil"></i>&nbsp;Edit
@@ -176,4 +132,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default Employees;

@@ -8,17 +8,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Index from "./views/Index.jsx";
 import Login from "./views/page/Login.jsx";
-import Profile from "./views/page/Profile.jsx";
+import Employees from "./views/Employees.jsx";
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
       <Route path="/" exact render={props => <Index {...props} />} />
-      <Route
-        path="/profile"
-        exact
-        render={props => <Profile {...props} />}
-      />
+      <Route path="/Employees" exact render={props => <Employees {...props} />} />
       <Route path="/login" exact render={props => <Login {...props} />} />
       <Redirect to="/" />
     </Switch>
