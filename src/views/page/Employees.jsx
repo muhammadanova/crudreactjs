@@ -7,7 +7,10 @@ class Employees extends React.Component {
     super(props);
     this.state = {
       employees: [],
-      ModalAddEmployees: false
+      ModalAddEmployees: false,
+      name: '',
+      salary: '',
+      age: ''
     }
   }
 
@@ -15,11 +18,36 @@ class Employees extends React.Component {
     this.getEmployees()
   }
 
+  getName = e => { this.setState({ name : e.target.value }) }
+  getSalary = e => { this.setState({ salary : e.target.value }) }
+  getAge = e => { this.setState({ age: e.target.value }) }
+
+  addEmployees = e => {
+    e.preventDefault();
+
+    let formData = {
+      name: this.state.name,
+      salary: this.state.salary,
+      age: this.state.age,
+    };
+
+    axios.post('http://dummy.restapiexample.com/api/v1/create', formData)
+    .then(res => {
+      this.state.employees.concat(res.data.payload)
+      this.hideModal()
+      this.setState({ name: '', salary: '', age: '' })
+      this.getEmployees()
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
   getEmployees = () => {
     axios.get(`http://dummy.restapiexample.com/api/v1/employees`)
     .then(res => {
-      const employees = res.data
-      console.log(res.data)
+      const arrEmployees = res.data
+      const employees = arrEmployees.sort().reverse()
       this.setState({ employees })
     })
   }
@@ -54,30 +82,20 @@ class Employees extends React.Component {
               <span aria-hidden={true}>×</span>
             </button>
           </div>
-          <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={this.addEmployees}>
             <div className="modal-body">
-              <Row>
-                <Col md={6}>
-                  <Form.Group>
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" name="name" value={this.state.name} placeholder="Your Name" onChange={this.getName} />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" name="email" value={this.state.email} placeholder="Your Email" onChange={this.getEmail}/>
-                  </Form.Group>
-                </Col>
-                <Col md={6}>
-                  <Form.Group>
-                    <Form.Label>Phone</Form.Label>
-                    <Form.Control type="text" name="phone" value={this.state.phone} placeholder="Your Phone" onChange={this.getPhone}/>
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>City</Form.Label>
-                    <Form.Control type="text" name="city" value={this.state.city} placeholder="Your City" onChange={this.getCity}/>
-                  </Form.Group>
-                </Col>
-              </Row>
+              <Form.Group>
+                <Form.Label>Name</Form.Label>
+                <Form.Control type="text" name="name" value={this.state.name} placeholder="Name" onChange={this.getName} />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Salary</Form.Label>
+                <Form.Control type="text" name="salary" value={this.state.salary} placeholder="Salary" onChange={this.getSalary}/>
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Age</Form.Label>
+                <Form.Control type="text" name="age" value={this.state.age} placeholder="Age" onChange={this.getAge}/>
+              </Form.Group>
             </div>
             <div className="modal-footer">
               <Button variant="primary" type="submit" size="sm">Submit</Button>
