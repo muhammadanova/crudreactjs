@@ -5,7 +5,13 @@ import { Table, Button, Modal, Row, Col, Form } from 'react-bootstrap';
 class Employees extends React.Component {
   constructor(props){
     super(props);
+
+    this.getName = this.getName.bind(this);
+    this.getSalary = this.getSalary.bind(this);
+    this.getAge = this.getAge.bind(this);
+
     this.state = {
+      url: 'http://dummy.restapiexample.com/api/v1',
       employees: [],
       ModalAddEmployees: false,
       name: '',
@@ -31,7 +37,7 @@ class Employees extends React.Component {
       age: this.state.age,
     };
 
-    axios.post('http://dummy.restapiexample.com/api/v1/create', formData)
+    axios.post(this.state.url + '/create', formData)
     .then(res => {
       this.state.employees.concat(res.data.payload)
       this.hideModal()
@@ -43,11 +49,34 @@ class Employees extends React.Component {
     })
   }
 
+  editEmployess = (id, e) => {
+    e.preventDefault();
+
+    let formDataEdit = {
+      name: '',
+      salary: '',
+      age: ''
+    };
+
+    axios.put('http://dummy.restapiexample.com/api/v1/update/'+id, formDataEdit)
+    .then(res => {
+      const result = res.data
+      this.state.employees.concat(result)
+      this.hideModal()
+      this.setState({ name: '', salary: '', age: '' })
+      this.getEmployees()
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
   getEmployees = () => {
-    axios.get(`http://dummy.restapiexample.com/api/v1/employees`)
+    axios.get(this.state.url + '/employees')
     .then(res => {
       const arrEmployees = res.data
       const employees = arrEmployees.sort().reverse()
+      console.log(employees)
       this.setState({ employees })
     })
   }
